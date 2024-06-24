@@ -10,6 +10,7 @@ app.get('/hello',(_req, _res) => {
     _res.send('Hello Full Stack!');
 });
 
+
 app.get('/bmi', (_req, _res) => {
  const params = parseQueryParams(_req);
  if(params.success){
