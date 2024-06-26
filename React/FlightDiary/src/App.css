@@ -1,0 +1,17 @@
+.error{
+  color:red
+}
+
+.radio-button-set{
+  display:flex;
+  gap:5px
+}
+
+.container{
+  display: flex;
+}
+
+.new-entry-label{
+ width: 90px;
+ display: inline-block;
+}
