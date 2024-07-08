@@ -25,4 +25,21 @@ patientRouter.post("/",(_req,_res) => {
     }
 });
 
+patientRouter.get("/:id",(req,res) => {
+    try{
+        const patient = patientService.getPatientById(req.params.id);
+        if(patient === undefined)
+            return res.sendStatus(404);
+        else
+            return res.json(patient);
+    }
+    catch(error:unknown){
+        let message = 'An error occured';
+        if(error instanceof Error){
+            message += 'Error' + error;
+        }
+       return  res.status(400).send(message);
+    }
+});
+
 export default patientRouter;

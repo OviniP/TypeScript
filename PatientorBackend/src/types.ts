@@ -10,13 +10,18 @@ export type Diagnosis = {
     latin?:string
 };
 
+export interface Entry {
+
+}
+
 export type Patient = {
     id:string,
     name:string,
     dateOfBirth:string,
     ssn:string,
     gender:Gender,
-    occupation:string
+    occupation:string,
+    entries: Entry []
 };
 
 export type NonSensitivePatient = Omit<Patient,'ssn'>;
