@@ -42,4 +42,21 @@ patientRouter.get("/:id",(req,res) => {
     }
 });
 
+patientRouter.post("/:id/entries", (req,res) => {
+    try{
+        const id = req.params.id;
+        const entry = utils.toNewEntry(req.body);
+
+        const newEntry = patientService.addEntry(id, entry);
+        return res.status(200).json(newEntry);
+    }
+    catch(error:unknown){
+        let errorMessage = "something went wrong.";
+        if(error instanceof Error){
+            errorMessage += ' Error: ' + error.message;
+        }
+        return res.status(400).send(errorMessage);
+    }
+});
+
 export default patientRouter;
