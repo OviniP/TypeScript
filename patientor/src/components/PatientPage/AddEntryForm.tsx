@@ -4,6 +4,7 @@ import patientService from "../../services/patients";
 import { Entry, EntryFormValues, HealthCheckEntry, HospitalEntry, OccupationalHealthcareEntry } from "../../types";
 import { AxiosError } from "axios";
 import ErrorIcon from '@mui/icons-material/Error';
+import CodeSelector from "./CodeSelector";
 
 type AddEntryProps = {
     showHide:boolean,
@@ -17,7 +18,7 @@ const AddEntry = ({showHide, patientId, onEntryAdded}:AddEntryProps) => {
     const [date,setDate] = useState('');
     const [specialist,setSpecialist] = useState('');
     const [rating,setRating] = useState(0);
-    const [codes,setCodes] = useState('');
+    const [codes,setCodes] = useState<string[]>([]);
     const [message, setMessage] = useState('');
     const [entryType, setEntryType] = useState('hospital');
     const [dischargeDate, setDischargeDate] = useState('');
@@ -52,7 +53,7 @@ const AddEntry = ({showHide, patientId, onEntryAdded}:AddEntryProps) => {
             description:description,
             date:date,
             specialist:specialist,
-            diagnosisCodes:codes.split(',')
+            diagnosisCodes:codes
         };
         switch(entryType){
             case "healthCheck":
@@ -94,12 +95,17 @@ const AddEntry = ({showHide, patientId, onEntryAdded}:AddEntryProps) => {
         setDate('');
         setSpecialist('');
         setRating(0);
-        setCodes('');
+        setCodes([]);
         setShowForm(false);
     };
     
     const handleEntryTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setEntryType(event.target.value);
+    };
+
+    const handleCodeSelect = (data:string[]) =>{
+        console.log(data);
+        setCodes(data);
     };
 
     if(showForm)
@@ -136,7 +142,7 @@ const AddEntry = ({showHide, patientId, onEntryAdded}:AddEntryProps) => {
                             onChange={(event) => setDescription(event.target.value)}/>
                         <TextField id="date" label="Date" type="date" value={date}  onChange={(event) => setDate(event.target.value)}/>
                         <TextField id="specialist" label="Specialist" type="text" value={specialist}  onChange={(event) => setSpecialist(event.target.value)}/>
-                        <TextField id="codes" label="Diagnosis Codes" type="text" value={codes}  onChange={(event) => setCodes(event.target.value)}/>
+                        <CodeSelector selected={handleCodeSelect}></CodeSelector>
                         {   entryType === "healthCheck" &&
                             <TextField id="rating" label="HealthCheck Rating" type="text" value={rating}  onChange={(event) => setRating(Number(event.target.value))}/>
                         }
